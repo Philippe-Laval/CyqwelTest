@@ -248,5 +248,33 @@ namespace CyqwelTest
             Console.WriteLine(sql);
         }
 
+
+        public static SqlSchemaCatalog Create(bool withRelationship = false) =>
+        new SqlSchemaCatalog(
+            new SqlTableSchema(
+                "users",
+                [
+                    new SqlColumnSchema("id", "integer", IsPrimaryKey: true),
+                    new SqlColumnSchema("name", "varchar"),
+                    new SqlColumnSchema("email", "varchar"),
+                    new SqlColumnSchema("age", "integer"),
+                    new SqlColumnSchema("active", "boolean"),
+                ],
+                PrimaryKey: ["id"]),
+            new SqlTableSchema(
+                "orders",
+                [
+                    new SqlColumnSchema("id", "integer", IsPrimaryKey: true),
+                    new SqlColumnSchema(
+                        "user_id",
+                        "integer",
+                        References: withRelationship
+                            ? new SqlColumnReference("users", "id")
+                            : null),
+                    new SqlColumnSchema("total", "decimal"),
+                    new SqlColumnSchema("description", "varchar"),
+                ],
+                PrimaryKey: ["id"]));
+
     }
 }
