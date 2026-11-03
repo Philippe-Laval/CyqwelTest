@@ -12,6 +12,10 @@ namespace CyqwelTest
     {
         static void Main(string[] args)
         {
+            MegaBuilder megaBuilder = new MegaBuilder();
+            var sql = megaBuilder.Test();
+
+
             ParseSql();
             InspectAndTransformSQL();
             GenerateTranspileAndFormatSQL();
