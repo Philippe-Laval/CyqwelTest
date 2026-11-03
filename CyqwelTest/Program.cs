@@ -18,6 +18,7 @@ namespace CyqwelTest
             ValidateSQL();
             BuildSQL();
             BuildStoredProcedures();
+            ExtendDialects();
         }
 
         private static void ParseSql()
@@ -232,6 +233,20 @@ namespace CyqwelTest
             Console.WriteLine(sql);
         }
 
+        private static void ExtendDialects()
+        {
+            var warehouse = SqlDialectBuilder.Create("warehouse")
+                .BasedOn(SqlDialects.PostgreSql)
+                .WithFunctionNameTransform(name =>
+                    name.Equals("LEN", StringComparison.OrdinalIgnoreCase)
+                        ? "LENGTH"
+                        : name)
+                .Register();
+
+            var sql = warehouse.Generate(Sql.Func("LEN", Sql.Col("name")));
+            // LENGTH(name)
+            Console.WriteLine(sql);
+        }
 
     }
 }
