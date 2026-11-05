@@ -178,15 +178,15 @@ namespace CyqwelTest
             : this((IList<McpSql_TableSchema>)tables)
         {
         }
+
+        public void AddTable(McpSql_TableSchema table)
+        {
+            Tables.Add(table);
+        }
     }
 
     public static class McpSql_SchemaCatalogExtensions
     {
-        public static void AddTable(this McpSql_SchemaCatalog catalog, McpSql_TableSchema table)
-        {
-            catalog.Tables.Add(table);
-        }
-
         public static string SerializeToJson(this McpSql_SchemaCatalog catalog)
         {
             return System.Text.Json.JsonSerializer.Serialize(catalog, new System.Text.Json.JsonSerializerOptions
