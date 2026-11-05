@@ -15,6 +15,10 @@ namespace CyqwelTest
             MegaBuilder megaBuilder = new MegaBuilder();
             var sql = megaBuilder.Test();
 
+            SqlSchemaCatalogGenerator generator = new SqlSchemaCatalogGenerator();
+            var catalog = SqlSchemaCatalogGenerator.CreateCatalog();
+            var json = catalog.SerializeToJson();
+            Console.WriteLine(json);
 
             ParseSql();
             InspectAndTransformSQL();
