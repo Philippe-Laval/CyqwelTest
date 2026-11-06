@@ -1,4 +1,5 @@
 ﻿using Cyqwel.Validation;
+using SqlMcp.Library;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -12,48 +13,48 @@ namespace CyqwelTest
 
     public sealed class SqlSchemaCatalogGenerator
     {
-        public McpSql_SchemaCatalog Generate()
+        public SqlMcp_SchemaCatalog Generate()
         {
-            var catalog = new McpSql_SchemaCatalog(new List<McpSql_TableSchema>());
+            var catalog = new SqlMcp_SchemaCatalog(new List<SqlMcp_TableSchema>());
 
             return catalog;
         }
 
-        public McpSql_SchemaCatalog GenerateSqlTableSchema()
+        public SqlMcp_SchemaCatalog GenerateSqlTableSchema()
         {
-            List<McpSql_TableSchema> tables = new List<McpSql_TableSchema>();
+            List<SqlMcp_TableSchema> tables = new List<SqlMcp_TableSchema>();
             
 
-            var SqlTableSchema = new McpSql_SchemaCatalog(tables);
+            var SqlTableSchema = new SqlMcp_SchemaCatalog(tables);
 
             return SqlTableSchema;
         }
 
 
-        public static McpSql_SchemaCatalog CreateCatalog(bool withRelationship = false) =>
-        new McpSql_SchemaCatalog(
-            new McpSql_TableSchema(
+        public static SqlMcp_SchemaCatalog CreateCatalog(bool withRelationship = false) =>
+        new SqlMcp_SchemaCatalog(
+            new SqlMcp_TableSchema(
                 "users",
-                new List<McpSql_ColumnSchema>
+                new List<SqlMcp_ColumnSchema>
                 {
-                    new McpSql_ColumnSchema("id", "integer", isPrimaryKey: true),
-                    new McpSql_ColumnSchema("name", "varchar"),
-                    new McpSql_ColumnSchema("email", "varchar"),
-                    new McpSql_ColumnSchema("age", "integer"),
-                    new McpSql_ColumnSchema("active", "boolean"),
+                    new SqlMcp_ColumnSchema("id", "integer", isPrimaryKey: true),
+                    new SqlMcp_ColumnSchema("name", "varchar"),
+                    new SqlMcp_ColumnSchema("email", "varchar"),
+                    new SqlMcp_ColumnSchema("age", "integer"),
+                    new SqlMcp_ColumnSchema("active", "boolean"),
                 },
                 primaryKey: new List<string> { "id" }),
-            new McpSql_TableSchema(
+            new SqlMcp_TableSchema(
                 "orders",
-                new List<McpSql_ColumnSchema>
+                new List<SqlMcp_ColumnSchema>
                 {
-                    new McpSql_ColumnSchema("id", "integer", isPrimaryKey: true),
-                    new McpSql_ColumnSchema(
+                    new SqlMcp_ColumnSchema("id", "integer", isPrimaryKey: true),
+                    new SqlMcp_ColumnSchema(
                         "user_id",
                         "integer",
-                        references : withRelationship ? new McpSql_ColumnReference("users", "id") : null),
-                    new McpSql_ColumnSchema("total", "decimal"),
-                    new McpSql_ColumnSchema("description", "varchar"),
+                        references : withRelationship ? new SqlMcp_ColumnReference("users", "id") : null),
+                    new SqlMcp_ColumnSchema("total", "decimal"),
+                    new SqlMcp_ColumnSchema("description", "varchar"),
                 },
                 primaryKey: new List<string> { "id" }));
     }

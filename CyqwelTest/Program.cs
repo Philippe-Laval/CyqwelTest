@@ -5,6 +5,7 @@ using Cyqwel.Generation;
 using Cyqwel.Parsing;
 using Cyqwel.Validation;
 using Cyqwel.Visitors;
+using SqlMcp.Library;
 
 namespace CyqwelTest
 {

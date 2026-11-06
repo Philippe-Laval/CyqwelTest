@@ -1,8 +1,11 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.Json.Serialization;
 
-namespace CyqwelTest
+namespace SqlMcp.Library
 {
-    public sealed class McpSql_ColumnReference
+    public sealed class SqlMcp_ColumnReference
     {
         [JsonPropertyName("table")]
         public string Table { get; }
@@ -13,7 +16,7 @@ namespace CyqwelTest
         [JsonPropertyName("schema")]
         public string? Schema { get; }
 
-        public McpSql_ColumnReference(string table, string column, string? schema = null)
+        public SqlMcp_ColumnReference(string table, string column, string? schema = null)
         {
             Table = table;
             Column = column;
@@ -21,7 +24,7 @@ namespace CyqwelTest
         }
     }
 
-    public sealed class McpSql_ColumnSchema
+    public sealed class SqlMcp_ColumnSchema
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -39,9 +42,9 @@ namespace CyqwelTest
         public bool IsUnique { get; set; } = false;
 
         [JsonPropertyName("references")]
-        public McpSql_ColumnReference? References { get; set; } = null;
+        public SqlMcp_ColumnReference? References { get; set; } = null;
 
-        public McpSql_ColumnSchema(
+        public SqlMcp_ColumnSchema(
             string name,
             string dataType)
         {
@@ -49,13 +52,13 @@ namespace CyqwelTest
             DataType = dataType;
         }
 
-        public McpSql_ColumnSchema(
+        public SqlMcp_ColumnSchema(
             string name,
             string dataType,
             bool? isNullable = null,
             bool isPrimaryKey = false,
             bool isUnique = false,
-            McpSql_ColumnReference? references = null)
+            SqlMcp_ColumnReference? references = null)
         {
             Name = name;
             DataType = dataType;
@@ -66,7 +69,7 @@ namespace CyqwelTest
         }
     }
 
-    public sealed class McpSql_TableReference
+    public sealed class SqlMcp_TableReference
     {
         [JsonPropertyName("table")]
         public string Table { get; set; }
@@ -77,7 +80,7 @@ namespace CyqwelTest
         [JsonPropertyName("schema")]
         public string? Schema { get; set; }
 
-        public McpSql_TableReference(string table, List<string> columns, string? schema = null)
+        public SqlMcp_TableReference(string table, List<string> columns, string? schema = null)
         {
             Table = table;
             Columns = columns;
@@ -85,20 +88,20 @@ namespace CyqwelTest
         }
     }
 
-    public sealed class McpSql_ForeignKey
+    public sealed class SqlMcp_ForeignKey
     {
         [JsonPropertyName("columns")]
         public List<string> Columns { get; set; }
 
         [JsonPropertyName("references")]
-        public McpSql_TableReference References { get; set; }
+        public SqlMcp_TableReference References { get; set; }
 
         [JsonPropertyName("name")]
         public string? Name { get; set; }
 
-        public McpSql_ForeignKey(
+        public SqlMcp_ForeignKey(
             List<string> columns,
-            McpSql_TableReference references,
+            SqlMcp_TableReference references,
             string? name = null)
         {
             Columns = columns;
@@ -109,13 +112,13 @@ namespace CyqwelTest
 
 
 
-    public sealed class McpSql_TableSchema
+    public sealed class SqlMcp_TableSchema
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
         [JsonPropertyName("columns")]
-        public List<McpSql_ColumnSchema> Columns { get; set; }
+        public List<SqlMcp_ColumnSchema> Columns { get; set; }
 
         [JsonPropertyName("schema")]
         public string? Schema { get; set; } = null;
@@ -130,24 +133,24 @@ namespace CyqwelTest
         public List<List<string>>? UniqueKeys { get; set; } = null;
 
         [JsonPropertyName("foreignKeys")]
-        public List<McpSql_ForeignKey>? ForeignKeys { get; set; } = null;
+        public List<SqlMcp_ForeignKey>? ForeignKeys { get; set; } = null;
 
-        public McpSql_TableSchema(
+        public SqlMcp_TableSchema(
             string name,
-            List<McpSql_ColumnSchema> columns)
+            List<SqlMcp_ColumnSchema> columns)
         {
             Name = name;
             Columns = columns;
         }
 
-        public McpSql_TableSchema(
+        public SqlMcp_TableSchema(
             string name,
-            List<McpSql_ColumnSchema> columns,
+            List<SqlMcp_ColumnSchema> columns,
             string? schema = null,
             List<string>? aliases = null,
             List<string>? primaryKey = null,
             List<List<string>>? uniqueKeys = null,
-            List<McpSql_ForeignKey>? foreignKeys = null)
+            List<SqlMcp_ForeignKey>? foreignKeys = null)
         {
             Name = name;
             Columns = columns;
@@ -159,18 +162,18 @@ namespace CyqwelTest
         }
     }
 
-    public sealed class McpSql_SchemaCatalog
+    public sealed class SqlMcp_SchemaCatalog
     {
         [JsonPropertyName("tables")]
-        public List<McpSql_TableSchema> Tables { get; set; }
+        public List<SqlMcp_TableSchema> Tables { get; set; }
 
-        public McpSql_SchemaCatalog(List<McpSql_TableSchema> tables)
+        public SqlMcp_SchemaCatalog(List<SqlMcp_TableSchema> tables)
         {
             Tables = tables;
         }
 
-        public McpSql_SchemaCatalog(params McpSql_TableSchema[] tables)
-            : this(new List<McpSql_TableSchema>(tables))
+        public SqlMcp_SchemaCatalog(params SqlMcp_TableSchema[] tables)
+            : this(new List<SqlMcp_TableSchema>(tables))
         {
         }
     }
